@@ -1,1 +1,6 @@
 /.cproject
+/.mxproject
+/.project
+/cmake-build-debug-mingw-stm32/
+/.clang-tidy
+/.clang-format
