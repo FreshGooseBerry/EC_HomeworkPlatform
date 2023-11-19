@@ -55,7 +55,7 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx)
 
 file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*")
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F407IGHX_FLASH.ld remote/remote.cpp remote/remote.h led/led.cpp led/led.h math/math.h math/math.cpp)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F407IGHX_FLASH.ld app/control.cpp base/remote/remote.cpp base/board/led.cpp base/common/math.cpp interface/robot.cpp interface/robot.h interface/callback.cpp interface/callback.h hardware_config.h)
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)

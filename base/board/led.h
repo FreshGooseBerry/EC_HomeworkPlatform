@@ -39,46 +39,4 @@ public:
 
 };
 
-void LED_RGBa_Show(uint32_t aRGB){
-    uint32_t alpha;
-    uint32_t red, blue, green;
-
-    alpha = ((aRGB & 0xFF000000) >> 24);
-    red = ((aRGB & 0x00FF0000) >> 16) * alpha;
-    blue = ((aRGB & 0x0000FF00) >> 8) * alpha;
-    green = ((aRGB & 0x000000FF) >> 0) * alpha;
-
-    __HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,blue);
-    __HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,green);
-    __HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,red);
-}
-
-void LED_Show(uint8_t red, uint8_t blue, uint8_t green){
-    //from 0-255
-    __HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_1,blue);
-    __HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_2,green);
-    __HAL_TIM_SET_COMPARE(&htim5,TIM_CHANNEL_3,red);
-}
-
-void LED_Breath(uint8_t red, uint8_t blue, uint8_t green){
-    while(red>0){
-        LED_Show(red, blue, green);
-        HAL_Delay(1);
-        --red;
-        ++blue;
-    }
-    while(blue>0){
-        LED_Show(red, blue, green);
-        HAL_Delay(1);
-        --blue;
-        ++green;
-    }
-    while(green>0){
-        LED_Show(red, blue, green);
-        HAL_Delay(1);
-        --green;
-        ++red;
-    }
-}
-
 #endif //EC_LED_H
