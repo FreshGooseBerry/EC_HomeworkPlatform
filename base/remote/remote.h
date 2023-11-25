@@ -25,7 +25,7 @@ private:
 
     volatile uint8_t rx_len;
     uint8_t rx_buffer[RC_RX_BUF_SIZE];
-    uint8_t rx_data[RC_FRAME_LEN];      //这里用 unsigned 但是实际上数据有负
+    volatile uint8_t rx_data[RC_FRAME_LEN];      //这里用 unsigned 但是实际上数据有负
 
 public:
     //遥控器拨档 remote switch

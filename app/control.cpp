@@ -3,16 +3,16 @@
 //
 
 #include "control.h"
-#include "iwdg.h"
+//#include "iwdg.h"
 
 #include "../base/board/led.h"
 #include "../base/common/math.h"
 #include "../base/remote/remote.h"
 
-extern RC rc;
+//extern RC rc;
 
 BoardLed led;
-
+/*
 void iwdgHandler(bool iwdg_refresh_flag){
     if(!iwdg_refresh_flag){
 
@@ -21,15 +21,16 @@ void iwdgHandler(bool iwdg_refresh_flag){
         HAL_IWDG_Refresh(&hiwdg);
     }
 }
+*/
 
 void controlInit(){
     led.init();
 }
 
 void controlLoop(){
-    iwdgHandler(true);
-    if(rc.rcSwitch.s1 == RC::UP){
-        led.setColor(200,0,0);
-    }
+    //iwdgHandler(true);
+    //if(rc.rcSwitch.s2 == RC::UP){
+    //    led.setColor(0,255,0);
+    //}
     led.handle();
 }

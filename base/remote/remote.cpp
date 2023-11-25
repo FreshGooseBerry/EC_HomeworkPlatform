@@ -55,8 +55,8 @@ void RC::handle() {
                      | ((int16_t)rx_data[4] << 10)) & 0x07FF;
     rawData.ch[3] = (((int16_t)rx_data[4] >> 1) | ((int16_t)rx_data[5] << 7)) & 0x07FF;   //lc
 
-    rawData.s[0] = ((uint16_t)rx_data[5] >> 4) & 0x0003;        //switch left
-    rawData.s[1] = (((uint16_t)rx_data[5] >> 6) & 0x000C) >> 2; //switch right
+    rawData.s[0] = ((rx_data[5] >> 4) & 0x000C) >> 2;   //switch left
+    rawData.s[1] = (rx_data[5] >> 4) & 0x0003;          //switch right
 
     mouse.x = (int16_t)rx_data[6] | ((int16_t)rx_data[7] << 8);
     mouse.y = (int16_t)rx_data[8] | ((int16_t)rx_data[9] << 8);
@@ -105,7 +105,7 @@ void RC::rxCallback() {
 //UART空闲中断，意味着一次传输已完成
 void RC::idleCallback() {
     if(rx_len >=RC_FRAME_LEN){
-        memcpy(rx_data, rx_buffer + rx_len - RC_FRAME_LEN, RC_FRAME_LEN); //这里不太明白为什么不直接等
+        memcpy((uint8_t*) rx_data, rx_buffer + rx_len - RC_FRAME_LEN, RC_FRAME_LEN); //这里不太明白为什么不直接等
     }
     rx_len = 0;
     if(huart_rc != nullptr){

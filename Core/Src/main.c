@@ -21,7 +21,6 @@
 #include "adc.h"
 #include "can.h"
 #include "dma.h"
-#include "iwdg.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -94,7 +93,6 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_ADC3_Init();
-  MX_IWDG_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
@@ -107,7 +105,11 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
+  __HAL_TIM_SetCompare(&htim5, TIM_CHANNEL_1, 255);
+  __HAL_TIM_SetCompare(&htim5, TIM_CHANNEL_2, 0);
+  __HAL_TIM_SetCompare(&htim5, TIM_CHANNEL_3, 0);
   robotInit();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -138,9 +140,8 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 6;
@@ -179,6 +180,9 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
+  __HAL_TIM_SetCompare(&htim5, TIM_CHANNEL_1, 0);
+  __HAL_TIM_SetCompare(&htim5, TIM_CHANNEL_2, 0);
+  __HAL_TIM_SetCompare(&htim5, TIM_CHANNEL_3, 255);
   __disable_irq();
   while (1)
   {

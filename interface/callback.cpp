@@ -3,6 +3,7 @@
 //
 
 #include "callback.h"
+//#include "../app/control.h"
 
 #include "usart.h"
 #include "tim.h"
@@ -47,7 +48,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     }
     if(htim->Instance == htim7.Instance) {
         // tim7触发的中断
-        //Count();
         rc.handle();
     }
 }

@@ -18,7 +18,7 @@ private:
 
     uint8_t alpha, red, blue, green;
     uint32_t red_channel, blue_channel, green_channel;
-    TIM_HandleTypeDef* led_htim = &htim5;
+    TIM_HandleTypeDef* led_htim;
 
     uint16_t breath_period;
     uint16_t blink_on_time, blink_off_time;
