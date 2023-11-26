@@ -3,14 +3,12 @@
 //
 
 #include "remote.h"
-#include <string.h>
-
-const uint16_t rc_ch_offset = 1024;
+//#include <string.h>
 
 RC::RC(UART_HandleTypeDef* huart):huart_rc(huart){
     rcSwitch.s1 = DOWN;
     rcSwitch.s2 = DOWN;
-    rx_len = 0;
+    //rx_len = 0;
 };
 
 void RC::reset() {
@@ -39,32 +37,32 @@ void RC::reset() {
 }
 
 void RC::init() {
-    rx_len = 0;
+    //rx_len = 0;
     reset();
     if(huart_rc != nullptr) {
-        __HAL_UART_ENABLE_IT(huart_rc,UART_IT_IDLE);
-        HAL_UART_Receive_DMA(huart_rc,rx_buffer,1);
+        //__HAL_UART_ENABLE_IT(huart_rc,UART_IT_IDLE);
+        HAL_UARTEx_ReceiveToIdle_DMA(huart_rc,rx_buffer,RC_RX_BUF_SIZE);
     }
 }
 
 void RC::handle() {
     //unpacked raw data
-    rawData.ch[0] = ((int16_t)rx_data[0] | ((int16_t)rx_data[1] << 8)) & 0x07FF;          //rr
-    rawData.ch[1] = (((int16_t)rx_data[1] >> 3) | ((int16_t)rx_data[2] << 5)) & 0x07FF;   //rc
-    rawData.ch[2] = (((int16_t)rx_data[2] >> 6) | ((int16_t)rx_data[3] << 2)              //lr
-                     | ((int16_t)rx_data[4] << 10)) & 0x07FF;
-    rawData.ch[3] = (((int16_t)rx_data[4] >> 1) | ((int16_t)rx_data[5] << 7)) & 0x07FF;   //lc
+    rawData.ch[0] = ((int16_t)rx_buffer[0] | ((int16_t)rx_buffer[1] << 8)) & 0x07FF;          //rr
+    rawData.ch[1] = (((int16_t)rx_buffer[1] >> 3) | ((int16_t)rx_buffer[2] << 5)) & 0x07FF;   //rc
+    rawData.ch[2] = (((int16_t)rx_buffer[2] >> 6) | ((int16_t)rx_buffer[3] << 2)              //lr
+                     | ((int16_t)rx_buffer[4] << 10)) & 0x07FF;
+    rawData.ch[3] = (((int16_t)rx_buffer[4] >> 1) | ((int16_t)rx_buffer[5] << 7)) & 0x07FF;   //lc
 
-    rawData.s[0] = ((rx_data[5] >> 4) & 0x000C) >> 2;   //switch left
-    rawData.s[1] = (rx_data[5] >> 4) & 0x0003;          //switch right
+    rawData.s[0] = ((rx_buffer[5] >> 4) & 0x000C) >> 2;   //switch left
+    rawData.s[1] = (rx_buffer[5] >> 4) & 0x0003;          //switch right
 
-    mouse.x = (int16_t)rx_data[6] | ((int16_t)rx_data[7] << 8);
-    mouse.y = (int16_t)rx_data[8] | ((int16_t)rx_data[9] << 8);
-    mouse.y = (int16_t)rx_data[10] | ((int16_t)rx_data[11] << 8);
-    mouse.press_l = (rx_data[12] != 0);
-    mouse.press_r = (rx_data[13] != 0);
+    mouse.x = (int16_t)rx_buffer[6] | ((int16_t)rx_buffer[7] << 8);
+    mouse.y = (int16_t)rx_buffer[8] | ((int16_t)rx_buffer[9] << 8);
+    mouse.y = (int16_t)rx_buffer[10] | ((int16_t)rx_buffer[11] << 8);
+    mouse.press_l = (rx_buffer[12] != 0);
+    mouse.press_r = (rx_buffer[13] != 0);
 
-    rcKey = (uint16_t)rx_data[14] | ((uint16_t)rx_data[15] << 8);
+    rcKey = (uint16_t)rx_buffer[14] | ((uint16_t)rx_buffer[15] << 8);
 
     //process raw data
     //channel
@@ -77,23 +75,23 @@ void RC::handle() {
         rcSwitch.s1 = UP;
     }
     else if(rawData.s[0] == 2){
-        rcSwitch.s1 = MID;
+        rcSwitch.s1 = DOWN;
     }
     else if(rawData.s[0] == 3){
-        rcSwitch.s1 = DOWN;
+        rcSwitch.s1 = MID;
     }
     //s2
     if(rawData.s[1] == 1){
         rcSwitch.s2 = UP;
     }
     else if(rawData.s[1] == 2){
-        rcSwitch.s2 = MID;
-    }
-    else if(rawData.s[1] == 3){
         rcSwitch.s2 = DOWN;
     }
+    else if(rawData.s[1] == 3){
+        rcSwitch.s2 = MID;
+    }
 }
-
+/*
 //UART接受中断
 void RC::rxCallback() {
     ++rx_len;
@@ -101,7 +99,8 @@ void RC::rxCallback() {
         HAL_UART_Receive_DMA(huart_rc,rx_buffer + rx_len,1); //why?
     }
 }
-
+*/
+/*
 //UART空闲中断，意味着一次传输已完成
 void RC::idleCallback() {
     if(rx_len >=RC_FRAME_LEN){
@@ -113,10 +112,7 @@ void RC::idleCallback() {
         HAL_UART_Receive_DMA(huart_rc,rx_buffer,1);
     }
 }
-
+*/
 bool RC::uartCheck(UART_HandleTypeDef* huart){
-    if(huart == huart_rc){
-        return true;
-    }
-    return false;
+    return (huart == huart_rc);
 }
