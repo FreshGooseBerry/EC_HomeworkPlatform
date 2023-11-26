@@ -27,7 +27,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 void User_UART_IdleHandler(UART_HandleTypeDef* huart){
     //判断空闲中断是否使能
     //judge if idle enabled
-    if(__HAL_UART_GET_FLAG(huart, UART_IT_IDLE) != RESET){
+    if(__HAL_UART_GET_FLAG(huart, UART_FLAG_IDLE) != RESET){
         //清除空闲标志（需调用函数清除）
         //clear idle flag
         __HAL_UART_CLEAR_IDLEFLAG(huart);
