@@ -5,6 +5,8 @@
 #ifndef EC_MATH_H
 #define EC_MATH_H
 
+#include <algorithm>
+
 const float PI = 3.141592653589793238462;
 
 namespace math{

@@ -6,6 +6,7 @@
 #include "tim.h"
 
 #include "../app/control.h"
+#include "../app/can_monitor.h"
 #include "../base/remote/remote.h"
 #include "../hardware_config.h"
 
@@ -23,6 +24,8 @@ void robotInit() {
     //时钟初始化
     HAL_TIM_Base_Start_IT(&htim6);
     HAL_TIM_Base_Start_IT(&htim7);
+    //can
+    canInit();
 }
 
 //机器人总控制循环，在TIM中断中以1000Hz调用

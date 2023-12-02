@@ -14,13 +14,15 @@ float math::limit(const float& value, const float& inf, const float& sup){
     if(inf >= sup){
         return value;
     }
-    if(value > sup){
-        return sup;
-    }
-    else if(value < inf){
-        return inf;
-    }
-    return value;
+//    if(value > sup){
+//        return sup;
+//    }
+//    else if(value < inf){
+//        return inf;
+//    }
+//    return value;
+
+    return std::max(inf,std::min(value,sup));
 }
 
 //循环限幅，将max-min记为一个周期，将变量加减一定周期使其在某个范围以内

@@ -60,3 +60,8 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size){
         HAL_UARTEx_ReceiveToIdle_DMA(&huart3,rc.rx_buffer,RC_RX_BUF_SIZE);
     }
 }
+
+//CAN Receive
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan){
+
+}
