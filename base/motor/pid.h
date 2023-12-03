@@ -7,9 +7,17 @@
 
 #include <algorithm>
 
+struct PidInitTypedef{
+    float kp;
+    float ki;
+    float kd;
+    float i_max;
+    float out_max;
+};
+
 class PID {
 public:
-    PID(float kp, float ki, float kd, float i_max, float out_max);
+    PID(const PidInitTypedef& pid_init);
 
     float calculate(float ref, float fdb);
     struct HHH{

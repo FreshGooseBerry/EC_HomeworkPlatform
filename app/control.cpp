@@ -9,7 +9,10 @@
 #include "../base/common/math.h"
 #include "../base/remote/remote.h"
 
-//extern RC rc;
+#include "motor_monitor.h"
+#include "can_monitor.h"
+
+extern RC rc;
 
 BoardLed led;
 /*
@@ -25,6 +28,10 @@ void iwdgHandler(bool iwdg_refresh_flag){
 
 void controlInit(){
     led.init();
+    led.setColor(0,0,255);
+    led.setModeOn();
+
+    dji_motor_driver.init();
 }
 
 void controlLoop(){
@@ -33,4 +40,7 @@ void controlLoop(){
     //    led.setColor(0,255,0);
     //}
     led.handle();
+    dji_motor_driver.handle();
+    dji_motor_driver.can1_motor[0]->setSpeed(rc.rcChannel.rc);
+    canSendPackage();
 }

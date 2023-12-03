@@ -9,6 +9,6 @@
 
 void canFilterConfig();
 void canInit();
-bool isDjiMotorMessage(CAN_RxHeaderTypeDef* rx_header);
+void canSendPackage();
 
 #endif //EC_HOMEWORKPLATFORM_CAN_MONITOR_H

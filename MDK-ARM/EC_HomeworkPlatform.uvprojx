@@ -574,6 +574,16 @@
               <FileType>8</FileType>
               <FilePath>..\app\control.cpp</FilePath>
             </File>
+            <File>
+              <FileName>can_monitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\app\can_monitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>motor_monitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\app\motor_monitor.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -593,6 +603,21 @@
               <FileName>remote.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\base\remote\remote.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>djimotor_driver.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\base\motor\djimotor_driver.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\base\motor\motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pid.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\base\motor\pid.cpp</FilePath>
             </File>
           </Files>
         </Group>

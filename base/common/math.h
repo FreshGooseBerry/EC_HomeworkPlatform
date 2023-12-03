@@ -19,6 +19,10 @@ float DeadBand(float val, const float& min, const float& max);
 float deg2rad(const float& deg);
 float rad2deg(const float& rad);
 float rpm2dps(const float& rpm);
+float rpm2radps(const float& rpm);
+float ecd2deg(const float& ecd, const float& ecd_range);
+
+float degNormalize180(const float& angle);
 
 }
 

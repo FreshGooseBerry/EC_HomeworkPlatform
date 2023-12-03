@@ -9,13 +9,10 @@
 #include "stdint.h"
 #include "can.h"
 
+struct MotorInitTypeDef;
+
 class Motor {
 public:
-    enum CanIdRange {
-        ID_1_4,
-        ID_5_8,
-        ID_9_11,
-    };
     enum MotorType {
         M3508,  //C620
         M2006,  //C610
@@ -32,18 +29,16 @@ public:
     };
 
     struct MotorData {
-        float angle;            // 减速后的输出端角度
-        float ecd_angle;        // 编码器角度
+        float angle;            // 减速后的输出端角度 //deg
+        float ecd_angle;        // 编码器角度       //ecd angle
         float last_ecd_angle;
-        float rotate_speed;     // 减速后的输出端转速
+        float rotate_speed;     // 减速后的输出端转速 //rad per second
         float current;          // 转矩电流
         float temp;             // 电机温度
     };
     struct MotorInfo {
         MotorType type;
         float ratio;// 减速比
-        CanIdRange can_id_range; //ID范围
-        uint8_t id; //电机ID
     };
 
 public:
@@ -57,17 +52,21 @@ public:
     PID ppid, spid;
 
 public:
-    Motor(const MotorType& type_, const float& ratio_, const ControlMethod& method_,
-          const PID& ppid_, const PID& spid_, const uint8_t& id_);
+    Motor(const MotorInitTypeDef& motor_init);
     void reset(void);       // 重置电机所有状态
     void handle(void);      // 根据当前 mode_ 计算控制量
     void setAngle(const float& target_angle_); // 设置目标角度
     void setSpeed(const float& target_speed_); // 设置目标速度
 
-    bool isRightMessage(CAN_RxHeaderTypeDef* rx_header);
-    void CanMessageUnpack(CAN_HandleTypeDef* hcan, CAN_RxHeaderTypeDef* rx_header, uint8_t* rx_data);
-    void CanMessageTransmit(CAN_HandleTypeDef* hcan, CanIdRange id_range);
-
+    void setMode(const Mode& mode_);
 };
+
+struct MotorInitTypeDef{
+    Motor::ControlMethod method;
+    Motor::MotorInfo info;
+    PID spid;
+    PID ppid;
+};
+
 
 #endif //EC_HOMEWORKPLATFORM_MOTOR_H

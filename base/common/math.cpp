@@ -66,9 +66,22 @@ float rad2deg(const float& rad){
     return (rad * 180.0 / PI);
 }
 
+float math::ecd2deg(const float& ecd, const float& ecd_range) {
+    return ecd * 360.f / ecd_range;
+}
+
 //angular velocity convert functions
 float rpm2dps(const float& rpm){
     return rpm * 6.0;
+}
+
+float math::rpm2radps(const float& rpm) {
+    return rpm * 0.10471976f;
+}
+
+//degree normailize functions
+float math::degNormalize180(const float& angle) {
+    return math::loopLimit(angle, -180.f, 180.f);
 }
 
 //TODO: other units convert functions

@@ -10,6 +10,8 @@
 
 #include "../base/remote/remote.h"
 
+#include "../app/motor_monitor.h"
+
 extern RC rc;
 
 //UART Transmit callback
@@ -63,5 +65,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size){
 
 //CAN Receive
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan){
-
+    CAN_RxHeaderTypeDef rx_header;
+    uint8_t receive_data[8];
+    HAL_CAN_GetRxMessage(hcan,CAN_RX_FIFO0,&rx_header,receive_data);
+    if(dji_motor_driver.isDjiMotorMessage(&rx_header)){
+        dji_motor_driver.rxItHandle(hcan, &rx_header, receive_data);
+    }
 }

@@ -3,6 +3,7 @@
 //
 
 #include "can_monitor.h"
+#include "motor_monitor.h"
 
 void canFilterConfig(){
     CAN_FilterTypeDef sFilterConfig;
@@ -36,23 +37,9 @@ void canInit(){
     canFilterConfig();
 }
 
-bool isDjiMotorMessage(CAN_RxHeaderTypeDef* rx_header){
-    if(info.type == M2006 || info.type == M3508){
-        if(info.can_id_range == ID_1_4) {
-            return (!(rx_header->StdId ^ 0x200))
-        }
-        if(info.can_id_range == ID_5_8) {
-            return (!(rx_header->StdId ^ 0x1FF))
-        }
-        return false;
-    }
-    if(info.type == GM6020){
-        if(info.can_id_range == ID_1_4) {
-            return (!(rx_header->StdId ^ 0x1FF))
-        }
-        if(info.can_id_range == ID_5_8) {
-            return (!(rx_header->StdId ^ 0x2FF))
-        }
-        return false;
-    }
+//1ms Loop
+void canSendPackage(){
+    dji_motor_driver.sendControlPackage(1,DjiMotorDriver::ID_1_4);
 }
+
+
