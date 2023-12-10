@@ -68,6 +68,10 @@ void robotInit();
 #define KEY_Pin GPIO_PIN_0
 #define KEY_GPIO_Port GPIOA
 #define KEY_EXTI_IRQn EXTI0_IRQn
+#define CS1_Accel_Pin GPIO_PIN_4
+#define CS1_Accel_GPIO_Port GPIOA
+#define CS1_Gyro_Pin GPIO_PIN_0
+#define CS1_Gyro_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

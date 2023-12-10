@@ -8,6 +8,7 @@
 #include "../base/board/led.h"
 #include "../base/common/math.h"
 #include "../base/remote/remote.h"
+#include "../base/imu/imu.h"
 
 #include "motor_monitor.h"
 #include "can_monitor.h"
@@ -15,6 +16,9 @@
 extern RC rc;
 
 BoardLed led;
+
+IMU imu;
+
 /*
 void iwdgHandler(bool iwdg_refresh_flag){
     if(!iwdg_refresh_flag){
@@ -31,6 +35,8 @@ void controlInit(){
     led.setColor(0,0,255);
     led.setModeOn();
 
+    imu.init();
+
     dji_motor_driver.init();
 }
 
@@ -40,6 +46,7 @@ void controlLoop(){
     //    led.setColor(0,255,0);
     //}
     led.handle();
+    imu.handle();
     dji_motor_driver.handle();
     dji_motor_driver.can1_motor[0]->setSpeed(rc.rcChannel.rc);
     canSendPackage();
