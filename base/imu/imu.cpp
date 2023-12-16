@@ -138,19 +138,19 @@ void IMU::handle() {
     BMI088_accel_read_multi_reg(BMI088_TEMP_M,rawdata_temp,2);
 
     //handle data
-    acceleration.x = (float)(((int16_t)rawdata_accel[1] << 8) | (int16_t)rawdata_accel[0]) * accel_unit;
-    acceleration.y = (float)(((int16_t)rawdata_accel[3] << 8) | (int16_t)rawdata_accel[2]) * accel_unit;
-    acceleration.z = (float)(((int16_t)rawdata_accel[5] << 8) | (int16_t)rawdata_accel[4]) * accel_unit;
+    acceleration.x = (float)((int16_t)(rawdata_accel[1] << 8) | rawdata_accel[0]) * accel_unit;
+    acceleration.y = (float)((int16_t)(rawdata_accel[3] << 8) | rawdata_accel[2]) * accel_unit;
+    acceleration.z = (float)((int16_t)(rawdata_accel[5] << 8) | rawdata_accel[4]) * accel_unit;
 
     BMI088_gyro_read_multi_reg(BMI088_ACC_CHIP_ID,rawdata_gyro,8);
 
     if(rawdata_gyro[0] == BMI088_GYRO_CHIP_ID_VALUE) {
         gyro_rate.x =
-            (float)(((int16_t)rawdata_gyro[3] << 8) | (int16_t)rawdata_gyro[2]) * gyro_unit;
+            (float)((int16_t)(rawdata_gyro[3] << 8) | rawdata_gyro[2]) * gyro_unit;//先移位再转int_16!
         gyro_rate.y =
-            (float)(((int16_t)rawdata_gyro[5] << 8) | (int16_t)rawdata_gyro[4]) * gyro_unit;
+            (float)((int16_t)(rawdata_gyro[5] << 8) | rawdata_gyro[4]) * gyro_unit;
         gyro_rate.z =
-            (float)(((int16_t)rawdata_gyro[7] << 8) | (int16_t)rawdata_gyro[6]) * gyro_unit;
+            (float)((int16_t)(rawdata_gyro[7] << 8) | rawdata_gyro[6]) * gyro_unit;
     }
 
     temp = (int16_t)(((int16_t)rawdata_temp[0] << 3) | ((int16_t)rawdata_temp[1] >> 5));
