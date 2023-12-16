@@ -55,7 +55,7 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx)
 
 file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*")
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F407IGHX_FLASH.ld app/control.cpp base/remote/remote.cpp base/board/led.cpp base/common/math.cpp interface/robot.cpp interface/robot.h interface/callback.cpp interface/callback.h hardware_config.h base/motor/pid.cpp base/motor/pid.h base/motor/motor.cpp base/motor/motor.h app/can_monitor.cpp app/can_monitor.h app/motor_monitor.cpp app/motor_monitor.h base/motor/djimotor_driver.cpp base/motor/djimotor_driver.h base/imu/imu.cpp base/imu/imu.h)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F407IGHX_FLASH.ld app/control.cpp base/remote/remote.cpp base/board/led.cpp base/common/math.cpp interface/robot.cpp interface/robot.h interface/callback.cpp interface/callback.h hardware_config.h base/motor/pid.cpp base/motor/pid.h base/motor/motor.cpp base/motor/motor.h app/can_monitor.cpp app/can_monitor.h app/motor_monitor.cpp app/motor_monitor.h base/motor/djimotor_driver.cpp base/motor/djimotor_driver.h base/imu/imu.cpp base/imu/imu.h base/imu/BMI088reg.h)
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
