@@ -153,7 +153,7 @@ void IMU::handle() {
             (float)((int16_t)(rawdata_gyro[7] << 8) | rawdata_gyro[6]) * gyro_unit;
     }
 
-    temp = (int16_t)(((int16_t)rawdata_temp[0] << 3) | ((int16_t)rawdata_temp[1] >> 5));
+    temp = (int16_t)((rawdata_temp[0] << 3) | (rawdata_temp[1] >> 5));
     if (temp > 1023)
     {
         temp -= 2048;
